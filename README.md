@@ -1,5 +1,5 @@
 # SPIES (Subjective Probability Interval EStimates)
-A calculator to curb overconfidence.
+A calculator to curb overconfidence. Proposed in https://www.cmu.edu/tepper/programs/phd/program/assets/dissertations/organizational-behavior-and-theory-haran-dissertation.pdf
 
 > "Is SPIES perfect?
 >
