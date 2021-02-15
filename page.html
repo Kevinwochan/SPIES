@@ -12,7 +12,7 @@
 </head>
 
 <body id="home">
-    <div class="container">
+    <div class="container m-5">
         <div class="row mb-5">
             <h1>SPIES</h1>
         </div>
@@ -24,20 +24,15 @@
             </div>
         </div>
         <div class="row mb-5">
-            <div class="col-6">
-                <h2 class="text-center">Using SPIES</h2>
-                <canvas id="spies-chart"></canvas>
-            </div>
-            <div class="col-6">
-                <h2 class="text-center">Using confidence intervals</h2>
-                <h1>TODO:</h1>
-                <canvas id="confidence-interval-chart"></canvas>
-            </div>
+            <canvas id="spies-chart"></canvas>
         </div>
         <div class="row">
-            <label id="confidence-interval-label" for="confidence-interval" class="form-label">Select desired confidence</label>
-            <input type="range" class="form-range" min="0" max="99" step="1" placeholder="0" id="confidence-interval">
+            <div class="col">
+                <label id="confidence-interval-label" for="confidence-interval" class="form-label">Select desired confidence</label>
+                <input type="range" class="form-range" min="0" max="99" step="1" placeholder="0" id="confidence-interval">
+            </div>
         </div>
+    </div>
     </div>
 
 </body>

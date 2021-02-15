@@ -1,10 +1,18 @@
 // State
-var labels = ["January", "February", "March", "April", "May", "June", "July"];
+var labels = [
+  "Less than 1 month",
+  "1-2 months",
+  "2-3 months",
+  "3-4 months",
+  "4-5 months",
+  "5-6 months",
+  "greater than 6 months",
+];
 var dataset = {
-  label: "Chance of occurrence (%)",
+  label: "Chance of occurring (%)",
   backgroundColor: "rgb(255, 99, 132)",
   borderColor: "rgb(255, 99, 132)",
-  data: [0, 10, 5, 2, 20, 30, 45],
+  data: [0, 5, 35, 35, 15, 5, 5],
   order: 2,
 };
 var croppedDataset = {
@@ -61,13 +69,14 @@ function cropData(data, confidence) {
   croppedData = [...data];
   // crop the beginning
   var amountToCrop = confidence / 2;
+  console.log(amountToCrop);
   for (var i = 0; i < data.length && amountToCrop > 0; ++i) {
     croppedData[i] = Math.max(data[i] - amountToCrop, 0);
     amountToCrop -= data[i];
   }
   // crop the end
   amountToCrop = confidence / 2;
-  for (var i = data.length - 1; i >= 0 && amountToCrop > 0; ++i) {
+  for (var i = data.length - 1; i >= 0 && amountToCrop > 0; --i) {
     croppedData[i] = Math.max(data[i] - amountToCrop, 0);
     amountToCrop -= data[i];
   }
