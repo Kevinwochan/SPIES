@@ -1,5 +1,5 @@
-# SPIES
-Subjective Probability Interval EStimates, a calculator to curb overconfidence.
+# SPIES (Subjective Probability Interval EStimates)
+A calculator to curb overconfidence.
 
 > "Is SPIES perfect?
 >
