@@ -1,3 +1,6 @@
+// Constants
+Z_TABLE = [];
+
 // State
 var labels = [
   "Less than 1 month",
@@ -15,6 +18,7 @@ var dataset = {
   data: [0, 5, 35, 35, 15, 5, 5],
   order: 2,
 };
+// The values within confidence using SPIES
 var croppedDataset = {
   label: "Within confidence",
   backgroundColor: "rgb(0,200,200)",
@@ -22,19 +26,29 @@ var croppedDataset = {
   order: 3,
 };
 
-// Chart
-var ctx = document.getElementById("spies-chart").getContext("2d");
-var chart = new Chart(ctx, {
-  // The type of chart we want to create
-  type: "bar",
+var slicedDataset = {
+  label: "Within confidence",
+  backgroundColor: "rgb(0,200,200)",
+  data: [],
+};
 
-  // The data for our dataset
+// Charts
+var ctx = document.getElementById("spies-chart").getContext("2d");
+var spiesChart = new Chart(ctx, {
+  type: "bar",
   data: {
     labels: labels,
     datasets: [dataset, croppedDataset],
   },
+  options: {},
+});
 
-  // Configuration options go here
+var normalChart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: labels,
+    datasets: [dataset, slicedDataset],
+  },
   options: {},
 });
 
@@ -60,22 +74,23 @@ function addData() {
   // Inserts data into the chart
   if (!isValidData()) return;
   labels.push(newLabel.value);
-  newLabel.value = "";
   dataset.data.push(newValue.value);
+  newLabel.value = "";
   newValue.value = "";
-  updateChart(chart, dataset, labels, croppedDataset);
+  updateChart(spiesChart, dataset, labels, croppedDataset);
+  updateChart(normalChart, dataset, labels, slicedDataset);
 }
-function cropData(data, confidence) {
+
+function SPIES(data, confidenceLevel) {
   croppedData = [...data];
   // crop the beginning
-  var amountToCrop = confidence / 2;
-  console.log(amountToCrop);
+  var amountToCrop = (100 - confidenceLevel) / 2;
   for (var i = 0; i < data.length && amountToCrop > 0; ++i) {
     croppedData[i] = Math.max(data[i] - amountToCrop, 0);
     amountToCrop -= data[i];
   }
   // crop the end
-  amountToCrop = confidence / 2;
+  amountToCrop = (100 - confidenceLevel) / 2;
   for (var i = data.length - 1; i >= 0 && amountToCrop > 0; --i) {
     croppedData[i] = Math.max(data[i] - amountToCrop, 0);
     amountToCrop -= data[i];
@@ -94,10 +109,13 @@ document.getElementById("new-value").onkeydown = (e) => {
   addData();
 };
 
-document.getElementById("confidence-interval").oninput = () => {
-  var confidenceLabel = document.getElementById("confidence-interval-label");
-  var confidence = document.getElementById("confidence-interval").value;
+document.getElementById("confidence-level").oninput = () => {
+  var confidenceLabel = document.getElementById("confidence-level-label");
+  var confidence = document.getElementById("confidence-level").value;
   confidenceLabel.innerHTML = `Select desired confidence (${confidence}%)`;
-  croppedDataset.data = cropData(dataset.data, confidence);
-  updateChart(chart, dataset, labels, croppedDataset);
+  // calculate SPIES chart data
+  croppedDataset.data = SPIES(dataset.data, confidence);
+  updateChart(spiesChart, dataset, labels, croppedDataset);
+  // calculate confidence interval
+  updateChart(normalChart, dataset, labels, croppedDataset);
 };
