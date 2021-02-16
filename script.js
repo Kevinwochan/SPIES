@@ -82,19 +82,21 @@ function addData() {
 }
 
 function SPIES(data, confidenceLevel) {
-  croppedData = [...data];
+  var croppedData = [...data];
   // crop the beginning
   var amountToCrop = (100 - confidenceLevel) / 2;
   for (var i = 0; i < data.length && amountToCrop > 0; ++i) {
     croppedData[i] = Math.max(data[i] - amountToCrop, 0);
     amountToCrop -= data[i];
   }
+  console.log(croppedData);
   // crop the end
   amountToCrop = (100 - confidenceLevel) / 2;
   for (var i = data.length - 1; i >= 0 && amountToCrop > 0; --i) {
-    croppedData[i] = Math.max(data[i] - amountToCrop, 0);
+    croppedData[i] = Math.max(croppedData[i] - amountToCrop, 0);
     amountToCrop -= data[i];
   }
+  console.log(croppedData);
   return croppedData;
 }
 
